@@ -46,7 +46,7 @@ const InfoGraphic: React.FC<InfoGraphicProps> = ({ setLogin }) => {
       style={{
         height: Dimensions.get("window").height,
         width: width,
-        backgroundColor: "white",
+        backgroundColor: "black",
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
@@ -83,7 +83,7 @@ const InfoGraphic: React.FC<InfoGraphicProps> = ({ setLogin }) => {
 
             <Text
               style={{
-                color: "black",
+                color: "white",
                 fontSize: width * 0.04,
                 fontWeight: "100",
                 textAlign: "center",
@@ -97,7 +97,7 @@ const InfoGraphic: React.FC<InfoGraphicProps> = ({ setLogin }) => {
               <TouchableOpacity
                 style={{
                   marginTop: Dimensions.get("window").height * 0.1,
-                  backgroundColor: "black",
+                  backgroundColor: "white",
                   borderRadius: 25,
                 }}
                 onPress={() => {
@@ -108,7 +108,7 @@ const InfoGraphic: React.FC<InfoGraphicProps> = ({ setLogin }) => {
                   style={{
                     fontSize: width * 0.03,
                     fontWeight: "100",
-                    color: "white",
+                    color: "black",
                     paddingVertical: width * 0.01,
                     paddingHorizontal: width * 0.08,
                   }}

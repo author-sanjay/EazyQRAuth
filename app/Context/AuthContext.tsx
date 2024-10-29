@@ -35,7 +35,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         console.error("Failed to load auth state", error);
       }
     };
-    // loadAuthState();
+    loadAuthState();
   }, []);
 
   const setUserLogin = async (user: any) => {
