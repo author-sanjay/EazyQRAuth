@@ -87,10 +87,8 @@ const BottomNav: React.FC<BottomNavProps> = ({
         borderTopRightRadius: screenHeight * 0.03,
       }}
     >
-      {renderNavItem("Home", House, "Home")}
       {renderNavItem("QRCode", QrCode, "Your Auth")}
-      {renderNavItem("ScanQR", ScanLineIcon, "Scan & Login")}
-      {renderNavItem("Developer", Code, "Developer")}
+      {renderNavItem("ScanQR", ScanLineIcon, "Scan & Save")}
       {renderNavItem("Profile", User, "Profile")}
     </View>
   );
