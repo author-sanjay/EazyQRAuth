@@ -1,16 +1,74 @@
-import React from "react";
-import { Dimensions, Text, View } from "react-native";
+import React, { useEffect, useRef, SetStateAction } from "react";
 import {
-    Code,
-  House,
-  QrCode,
-  ScanLineIcon,
-  Settings,
-  User,
-} from "lucide-react-native";
-const BottomNav = () => {
+  Animated,
+  Dimensions,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import { Code, House, QrCode, ScanLineIcon, User } from "lucide-react-native";
+
+interface BottomNavProps {
+  selectedNav: string;
+  setSelectedNav: React.Dispatch<SetStateAction<string>>;
+}
+
+const BottomNav: React.FC<BottomNavProps> = ({
+  selectedNav,
+  setSelectedNav,
+}) => {
   const screenWidth = Dimensions.get("window").width;
   const screenHeight = Dimensions.get("window").height;
+
+  const backgroundAnim = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    Animated.timing(backgroundAnim, {
+      toValue: 1,
+      duration: 1000,
+      useNativeDriver: false,
+    }).start();
+  }, [selectedNav]);
+
+  const renderNavItem = (navKey: string, IconComponent: any, label: string) => {
+    const isSelected = selectedNav === navKey;
+
+    const backgroundColor = isSelected ? "white" : "black";
+
+    const textColor = isSelected ? "black" : "white";
+    return (
+      <TouchableOpacity
+        onPress={() => {
+          setSelectedNav(navKey);
+        }}
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundColor: backgroundColor,
+          borderRadius: screenWidth * 0.03,
+          paddingHorizontal: screenWidth * 0.02,
+          paddingVertical: screenHeight * 0.006,
+        }}
+      >
+        <IconComponent color={textColor} size={screenHeight * 0.025} />
+        {isSelected && (
+          <Animated.Text
+            style={{
+              color: textColor,
+              marginLeft: screenWidth * 0.01,
+              fontSize: screenHeight * 0.012,
+              opacity: backgroundAnim,
+            }}
+          >
+            {label}
+          </Animated.Text>
+        )}
+      </TouchableOpacity>
+    );
+  };
+
   return (
     <View
       style={{
@@ -29,21 +87,11 @@ const BottomNav = () => {
         borderTopRightRadius: screenHeight * 0.03,
       }}
     >
-      <Text>
-        <House color="white" size={screenHeight * 0.025} />;
-      </Text>
-      <Text>
-        <QrCode color="white" size={screenHeight * 0.025} />;
-      </Text>
-      <Text>
-        <ScanLineIcon color="white" size={screenHeight * 0.025} />;
-      </Text>
-      <Text>
-        <Code color="white" size={screenHeight * 0.025} />;
-      </Text>
-      <Text>
-        <User color="white" size={screenHeight * 0.025} />;
-      </Text>
+      {renderNavItem("Home", House, "Home")}
+      {renderNavItem("QRCode", QrCode, "Your Auth")}
+      {renderNavItem("ScanQR", ScanLineIcon, "Scan & Login")}
+      {renderNavItem("Developer", Code, "Developer")}
+      {renderNavItem("Profile", User, "Profile")}
     </View>
   );
 };

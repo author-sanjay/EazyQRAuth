@@ -5,9 +5,10 @@ import {
   Dimensions,
   TouchableOpacity,
 } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import BottomNav from "./BottomNav";
 const Home = () => {
+  const [selectedNav, setSelectedNav] = useState("Home");
   const screenWidth = Dimensions.get("window").width;
   const screenHeight = Dimensions.get("window").height;
   return (
@@ -19,7 +20,7 @@ const Home = () => {
           backgroundColor: "#353535",
         }}
       >
-        <BottomNav/>
+        <BottomNav selectedNav={selectedNav} setSelectedNav={setSelectedNav} />
       </View>
     </SafeAreaView>
   );
