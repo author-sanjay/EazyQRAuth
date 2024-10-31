@@ -35,8 +35,12 @@ const LoginComponent = () => {
 
     setIsLoading(true);
     try {
-      await signInWithEmailAndPassword(auth, userData.email, userData.password);
-      setUserLogin(true);
+      const response = await signInWithEmailAndPassword(
+        auth,
+        userData.email,
+        userData.password
+      );
+      setUserLogin(response.user);
       console.log("Login successful");
     } catch (err: any) {
       setError("Invalid email or password");

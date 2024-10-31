@@ -23,7 +23,6 @@ interface AuthProviderProps {
 const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userObject, setUserObject] = useState<any>(null);
-
   useEffect(() => {
     const loadAuthState = async () => {
       try {
@@ -35,7 +34,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         console.error("Failed to load auth state", error);
       }
     };
-    loadAuthState();
+    // loadAuthState();
   }, []);
 
   const setUserLogin = async (user: any) => {

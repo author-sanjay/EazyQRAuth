@@ -1,6 +1,7 @@
 import { useAuth } from "@/app/Context/AuthContext";
-import { FIREBASE_AUTH } from "@/FirebaseContext";
-import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { FIREBASE_AUTH, FIREBASE_STORAGE } from "@/FirebaseContext";
+import { doc, setDoc } from "firebase/firestore";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import React, { useState } from "react";
 import {
   View,
@@ -14,7 +15,6 @@ import {
   Image,
 } from "react-native";
 
-
 interface SignUpProps {
   setLogin: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -22,6 +22,7 @@ const WIDTH = Dimensions.get("window").width;
 const HEIGHT = Dimensions.get("window").height;
 const SignUp: React.FC<SignUpProps> = ({ setLogin }) => {
   const auth = FIREBASE_AUTH;
+  const db = FIREBASE_STORAGE;
   const [userObject, setUserObject] = useState({
     email: "",
     password: "",
@@ -30,8 +31,6 @@ const SignUp: React.FC<SignUpProps> = ({ setLogin }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const { setUserLogin } = useAuth();
-
-
 
   const handleRegister = async () => {
     if (userObject.email.length === 0 || userObject.password.length === 0) {
@@ -45,11 +44,21 @@ const SignUp: React.FC<SignUpProps> = ({ setLogin }) => {
 
     try {
       setLoading(true);
+
+      // Register the user using Firebase Authentication
       const response = await createUserWithEmailAndPassword(
         auth,
         userObject.email,
         userObject.password
       );
+
+      const userId = response.user.uid;
+
+      await setDoc(doc(db, "users", userId), {
+        AuthCred: [],
+        createdCreds: [],
+      });
+
       setUserLogin(response.user);
       setLoading(false);
       Alert.alert("Success", "Registration successful!");
@@ -58,7 +67,6 @@ const SignUp: React.FC<SignUpProps> = ({ setLogin }) => {
       setError("Failed to register. Try again.");
     }
   };
-
 
   return (
     <View
